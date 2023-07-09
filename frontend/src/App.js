@@ -39,139 +39,7 @@ const App = () => {
 
   //customer table**********************************************************
 //table head section---------------------------------------------
-const customerColumns = [
-  {
-    title: "Code",
-    dataIndex: "code",
-  },
-  {
-    title: "Type",
-    dataIndex: "type",
-  },
-  {
-    title: "Name",
-    dataIndex: "customer_name",
-    // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    // render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "Mobile",
-    dataIndex: "customer_mobile",
-  },
-  {
-    title: "Country",
-    dataIndex: "country",
-  },
-  {
-    title: "City",
-    dataIndex: "city",
-  },
-  {
-    title: "Gender",
-    dataIndex: "gender",
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (record) => {
-      return (
-        <>
-          <EyeFilled 
-            style={{ fontSize: "20px", color: "#5FC47B", marginRight: 10 }}
-          />
-          <EditFilled style={{ fontSize: "20px", marginRight: 10, color:"#00F3F6" }}/>
-          <DeleteFilled style={{ fontSize: "20px", color: "#FF0000" }} />
-        </>
-      );
-    },
-    width: 120,
-  },
-];
-//table head section end--------------------------------------------------------
 
-//table data section start----------------------------------------------------------
-const customerData = [
-  {
-    key: "1",
-    code: "RE00001",
-    type: "Cash",
-    customer_name: "Saman",
-    customer_mobile: "0772785361",
-    country: "Sri Lanka",
-    city: "Colombo",
-    gender: "Male",
-  },
-  {
-    key: "1",
-    code: "RE00002",
-    type: "Card",
-    customer_name: "Amila",
-    customer_mobile: "0772785361",
-    country: "Sri Lanka",
-    city: "Rathmalana",
-    gender: "Male",
-  },
-];
-//table data section end-------------------------------------------------
-
-//table row selection-------------------------------------------
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      "selectedRows: ",
-      selectedRows
-    );
-  },
-  // getCheckboxProps: (record) => ({
-  //   disabled: record.name === "Disabled User",
-  //   name: record.name,
-  // }),
-};
-//----------------------------------------------------------------
-//customer table end***************************************************
-
-//contact person table ************************************************
-//table header----------------------------------------
-const ContactPersonColumns = [
-  {
-    title: "Name",
-    dataIndex: "contact_name",
-    key: "contact_name",
-  },
-  {
-    title: "Designation",
-    dataIndex: "contact_designation",
-    key: "contact_designation",
-    width:350
-  },
-  {
-    title: "Mobile",
-    dataIndex: "contact_mobile",
-    key: "contact_mobile",
-  },
-  {
-    title: "Email",
-    dataIndex: "contact_email",
-    key: "contact_email",
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (record) => {
-      return (
-        <>
-          <EditFilled style={{ fontSize: "20px", marginRight: 10, color:"#00F3F6" }}/>
-          <DeleteFilled style={{ fontSize: "20px", color: "#FF0000" }} />
-        </>
-      );
-    },
-    width: 100,
-  },
-];
-//table header end------------------------------------
-
-//contact person table end********************************************
 
 //part of the file uploading
 const getBase64 = (file) =>
@@ -262,7 +130,7 @@ const contentStyle = {
 
   const handleAdd = (e) => {
     e.preventDefault();
-
+    
     const newContact = {
       contact_name,
       contact_designation,
@@ -303,6 +171,19 @@ const contentStyle = {
     ...contact
   }));
 
+  const handlecontactdelete = () => {
+    setContact_designation("")
+    setContact_email("")
+    setContact_mobile("");
+    setContact_name("")
+  }
+  //delete operation for the contact person table
+  const handleDeletecontact = (key) => {
+    setContactData((prevData) =>
+      prevData.filter((contact) => contact.key !== key)
+    );
+  };
+
   //contact person table data starts--------------------------------
 
   // const ContactPersonData = [
@@ -316,6 +197,143 @@ const contentStyle = {
   // ];
 //contact person table data end--------------------------------
   //************************************************** */
+
+  const customerColumns = [
+    {
+      title: "Code",
+      dataIndex: "code",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+    },
+    {
+      title: "Name",
+      dataIndex: "customer_name",
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      // render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Mobile",
+      dataIndex: "customer_mobile",
+    },
+    {
+      title: "Country",
+      dataIndex: "country",
+    },
+    {
+      title: "City",
+      dataIndex: "city",
+    },
+    {
+      title: "Gender",
+      dataIndex: "gender",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (record) => {
+        return (
+          <>
+            <EyeFilled 
+              style={{ fontSize: "20px", color: "#5FC47B", marginRight: 10 }}
+            />
+            <EditFilled style={{ fontSize: "20px", marginRight: 10, color:"#00F3F6" }}/>
+            <DeleteFilled style={{ fontSize: "20px", color: "#FF0000" }} />
+          </>
+        );
+      },
+      width: 120,
+    },
+  ];
+  //table head section end--------------------------------------------------------
+  
+  //table data section start----------------------------------------------------------
+  const customerData = [
+    {
+      key: "1",
+      code: "RE00001",
+      type: "Cash",
+      customer_name: "Saman",
+      customer_mobile: "0772785361",
+      country: "Sri Lanka",
+      city: "Colombo",
+      gender: "Male",
+    },
+    {
+      key: "1",
+      code: "RE00002",
+      type: "Card",
+      customer_name: "Amila",
+      customer_mobile: "0772785361",
+      country: "Sri Lanka",
+      city: "Rathmalana",
+      gender: "Male",
+    },
+  ];
+  //table data section end-------------------------------------------------
+  
+  //table row selection-------------------------------------------
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        "selectedRows: ",
+        selectedRows
+      );
+    },
+    // getCheckboxProps: (record) => ({
+    //   disabled: record.name === "Disabled User",
+    //   name: record.name,
+    // }),
+  };
+  //----------------------------------------------------------------
+  //customer table end***************************************************
+  
+  //contact person table ************************************************
+  //table header----------------------------------------
+  const ContactPersonColumns = [
+    {
+      title: "Name",
+      dataIndex: "contact_name",
+      key: "contact_name",
+    },
+    {
+      title: "Designation",
+      dataIndex: "contact_designation",
+      key: "contact_designation",
+      width:350
+    },
+    {
+      title: "Mobile",
+      dataIndex: "contact_mobile",
+      key: "contact_mobile",
+    },
+    {
+      title: "Email",
+      dataIndex: "contact_email",
+      key: "contact_email",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (record) => {
+        return (
+          <>
+          {/* onClick={() => handleDeletecontact(record.key)}  */}
+            <EditFilled style={{ fontSize: "20px", marginRight: 10, color:"#00F3F6" }}/>
+            <DeleteFilled  onClick={handlecontactdelete}
+            style={{ fontSize: "20px", color: "#FF0000" }} />
+          </>
+        );
+      },
+      width: 100,
+    },
+  ];
+  //table header end------------------------------------
+  
+  //contact person table end********************************************
+
 
   //** */
 
@@ -533,7 +551,7 @@ const contentStyle = {
           >
             <Input
               value={contact_name}
-              onChange={(e) => handleChange(e, "contact_name")}
+              onChange={(e) => handleChange1(e, "contact_name")}
             />
           </Form.Item>
         </div>
@@ -545,7 +563,7 @@ const contentStyle = {
           >
             <Input
               value={contact_designation}
-              onChange={(e) => handleChange(e, "contact_designation")}
+              onChange={(e) => handleChange1(e, "contact_designation")}
             />
           </Form.Item>
         </div>
@@ -557,7 +575,7 @@ const contentStyle = {
           >
             <Input
               value={contact_mobile}
-              onChange={(e) => handleChange(e, "contact_mobile")}
+              onChange={(e) => handleChange1(e, "contact_mobile")}
             />
           </Form.Item>
         </div>
@@ -566,10 +584,11 @@ const contentStyle = {
             name="contact_email"
             label="Email:"
             rules={[{ required: true }]}
+            required
           >
             <Input
               value={contact_email}
-              onChange={(e) => handleChange(e, "contact_email")}
+              onChange={(e) => handleChange1(e, "contact_email")}
             />
           </Form.Item>
         </div>
