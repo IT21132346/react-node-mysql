@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+/* eslint-disable no-restricted-globals */
+import React, { useEffect, useState } from "react";
 import "./index.css";
+import axios from 'axios'
 import {
   Layout,
   Divider,
@@ -28,16 +30,46 @@ import {
 import { RcFile, UploadProps } from "antd/es/upload";
 import { UploadFile } from "antd/es/upload/interface";
 
-
 const handleClick = () => {
   // Handle button click event here
   console.log("Button clicked!");
 };
 
-
 const App = () => {
 
-  //customer table**********************************************************
+  const [customer , setCustomer] = useState()
+  const [customerdata, setCustomerData] = useState([])  //fetch data from the db
+  const [customerdatavalues, setCustomerDataValues] = useState({
+  customer_id:'',
+  code:'',
+  customer_name:'',
+  customer_mobile:'',
+  reference_no:'',
+  city:'',
+  customer_email:'',
+  company_name:'',
+  address:'',
+  country:'',
+  gender:'',
+  customer_nic:'',
+})
+  useEffect(() => {
+    axios.get('http://localhost:8080/')
+    .then(res => setCustomerData(res.data))
+    .catch(err => console.log(err))
+  })
+
+  //delete customer data
+  const handleCustomerDelet = (id) => {
+    axios.delete('http://localhost:8080/delete/'+id)
+    .then(res => {
+      location.reload();
+    })
+    .catch(err => console.log(err))
+  }
+  
+
+//customer table**********************************************************
 //table head section---------------------------------------------
 
 
@@ -54,8 +86,8 @@ const getBase64 = (file) =>
 const contentStyle = {
   minHeight: 10,
   backgroundColor: "#EAEAEA",
-};
-//******************************************** */
+ };
+ //******************************************** */
 
 
   const [selectionType, setSelectionType] = useState("checkbox");
@@ -108,7 +140,7 @@ const contentStyle = {
   //to gender selector********************************
   const [gender, setGender] = useState();
 
-  const onChange = (RadioChangeEvent) => {
+  const onChangeGender = (RadioChangeEvent) => {
     console.log("gender checked", RadioChangeEvent.target.value);
     setGender(RadioChangeEvent.target.value);
   };
@@ -130,7 +162,7 @@ const contentStyle = {
 
   const handleAdd = (e) => {
     e.preventDefault();
-    
+
     const newContact = {
       contact_name,
       contact_designation,
@@ -239,7 +271,7 @@ const contentStyle = {
               style={{ fontSize: "20px", color: "#5FC47B", marginRight: 10 }}
             />
             <EditFilled style={{ fontSize: "20px", marginRight: 10, color:"#00F3F6" }}/>
-            <DeleteFilled style={{ fontSize: "20px", color: "#FF0000" }} />
+            <DeleteFilled onClick={()=>handleCustomerDelet(customer.id)} style={{ fontSize: "20px", color: "#FF0000" }} />
           </>
         );
       },
@@ -249,28 +281,36 @@ const contentStyle = {
   //table head section end--------------------------------------------------------
   
   //table data section start----------------------------------------------------------
-  const customerData = [
-    {
-      key: "1",
-      code: "RE00001",
-      type: "Cash",
-      customer_name: "Saman",
-      customer_mobile: "0772785361",
-      country: "Sri Lanka",
-      city: "Colombo",
-      gender: "Male",
-    },
-    {
-      key: "1",
-      code: "RE00002",
-      type: "Card",
-      customer_name: "Amila",
-      customer_mobile: "0772785361",
-      country: "Sri Lanka",
-      city: "Rathmalana",
-      gender: "Male",
-    },
-  ];
+  // const customerData = [
+  //   {
+  //     key: "1",
+  //     code: "RE00001",
+  //     type: "Cash",
+  //     customer_name: "Saman",
+  //     customer_mobile: "0772785361",
+  //     country: "Sri Lanka",
+  //     city: "Colombo",
+  //     gender: "Male",
+  //   },
+  // ];
+  <table>
+    <thead>
+      {/* Table header */}
+    </thead>
+    <tbody>
+      {customerdata.map((customer) => (
+        <tr key={customer.key}>
+          <td>{customer.code}</td>
+          <td>{customer.type}</td>
+          <td>{customer.customer_name}</td>
+          <td>{customer.customer_mobile}</td>
+          <td>{customer.country}</td>
+          <td>{customer.city}</td>
+          <td>{customer.gender}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
   //table data section end-------------------------------------------------
   
   //table row selection-------------------------------------------
@@ -334,6 +374,12 @@ const contentStyle = {
   
   //contact person table end********************************************
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:8080/customer',customerdatavalues)
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+  }
 
   //** */
 
@@ -366,7 +412,7 @@ const contentStyle = {
           ...rowSelection,
         }}
         columns={customerColumns}
-        dataSource={customerData}
+        dataSource={customerdata}
         pagination={false}
       />
 
@@ -387,17 +433,18 @@ const contentStyle = {
           layout="vertical"
           autoComplete="off"
           width="90%"
+          onSubmit={handleSubmit}
         >
           {/* start of the form fields */}
           <div style={{ display: "flex", flex: 1 }}>
             <div style={{ margin: 10, flex: 1 }}>
               <Form.Item name="code" label={<span style={{ fontWeight: "bold" }}>Code:</span>} rules={[{ required: true }]}>
-                <Input />
+                <Input onChange={e=>setCustomerDataValues({...customerdatavalues, code:e.target.value})}/>
               </Form.Item>
               <Form.Item name="customer_name" label={<span style={{ fontWeight: "bold" }}>Customer Name:</span>}
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input onChange={e=>setCustomerDataValues({...customerdatavalues, customer_name:e.target.value})}/>
               </Form.Item>
             </div>
             <div style={{ margin: 10, flex: 1 }}>
@@ -406,19 +453,19 @@ const contentStyle = {
                 label={<span style={{ fontWeight: "bold" }}>Refrance No:</span>}
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input onChange={e=>setCustomerDataValues({...customerdatavalues, reference_no:e.target.value})}/>
               </Form.Item>
               <Form.Item
                 name="company_name"
                 label={<span style={{ fontWeight: "bold" }}>Company Name:</span>}
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input onChange={e=>setCustomerDataValues({...customerdatavalues, company_name:e.target.value})}/>
               </Form.Item>
             </div>
             <div style={{ margin: 10, flex: 1 }}>
               <Form.Item
-                name="customertype"
+                name="customer_type"
                 label={<span style={{ fontWeight: "bold" }}>Customer Type:</span>}
                 rules={[{ required: true }]}
               >
@@ -428,11 +475,11 @@ const contentStyle = {
                 </Select>
               </Form.Item>
               <Form.Item
-                name="id"
+                name="customer_nic"
                 label={<span style={{ fontWeight: "bold" }}>NIC/Passport/Driver's License:</span>}
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input onChange={e=>setCustomerDataValues({...customerdatavalues, customer_nic:e.target.value})}/>
               </Form.Item>
             </div>
             <div style={{ margin: 10, flex: 1 }}>
@@ -454,7 +501,7 @@ const contentStyle = {
 
                 required={true}
               >
-                <Input.TextArea />
+                <Input.TextArea onChange={e=>setCustomerDataValues({...customerdatavalues, address:e.target.value})}/>
               </Form.Item>
             </div>
             <div style={{ margin: 10, flex: 1 }}>
@@ -464,7 +511,7 @@ const contentStyle = {
 
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input onChange={e=>setCustomerDataValues({...customerdatavalues, customer_mobile:e.target.value})}/>
               </Form.Item>
               <Form.Item
                 name="country"
@@ -489,10 +536,10 @@ const contentStyle = {
 
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input onChange={e=>setCustomerDataValues({...customerdatavalues, customer_email:e.target.value})}/>
               </Form.Item>
               <Form.Item name="city" label={<span style={{ fontWeight: "bold" }}>City:</span>} rules={[{ required: true }]}>
-                <Input />
+              <Input onChange={e=>setCustomerDataValues({...customerdatavalues, city:e.target.value})}/>
               </Form.Item>
             </div>
           </div>
@@ -528,7 +575,7 @@ const contentStyle = {
                 label={<span style={{ fontWeight: "bold" }}>Gender:</span>}
                 rules={[{ required: true }]}
               >
-                <Radio.Group onChange={onChange} value={gender}>
+                <Radio.Group onChange={onChangeGender} value={gender}>
                   <Radio value={1}><b>Male</b></Radio>
                   <Radio value={2}><b>Female</b></Radio>
                 </Radio.Group>
@@ -618,6 +665,7 @@ const contentStyle = {
               <div>
                 <Button style={{ width: 100, margin: 5 }}>Clear</Button>
                 <Button
+                type="submit"
                   style={{ width: 100, backgroundColor: "#00C136", margin: 5 }}
                 >
                   Save
