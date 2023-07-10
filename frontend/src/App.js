@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-globals */
 import React, { useEffect, useState } from "react";
 import "./index.css";
