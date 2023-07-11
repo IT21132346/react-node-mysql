@@ -1,6 +1,9 @@
 import express from "express";
 import mysql from 'mysql'
 import cors from 'cors'
+import multer from "multer"
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const app = express();
 
@@ -13,6 +16,11 @@ const db = mysql.createConnection({
     user:"root",
     password:"",
     database:"mydb"
+})
+
+//open a port for browser connection******************************************
+app.listen(8080,()=>{
+    console.log("Listening to port 8080...!");
 })
 
 //get data from database********************************************************
@@ -88,7 +96,25 @@ app.get('/countryname',(req, res) =>{
     })
 })
 
-//open a port for browser connection******************************************
-app.listen(8080,()=>{
-    console.log("Listening to port 8080...!");
-})
+//multer configuration 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/'); // Destination folder for uploaded images
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + '_' + file.originalname); // Unique filename for each uploaded image
+    },
+  });
+
+  const upload = multer({ storage });
+
+  app.post('/customer/upload', upload.single('image'), (req, res) => {
+
+    const { filename  } = req.file;
+    const query = 'INSERT INTO document (doc_name) VALUES (?)';
+
+    connection.query(query, [filename ], (err, results) => {
+      if (err) throw err;
+      res.json({ message: 'Image uploaded successfully!', id: results.insertId });
+    });
+  });

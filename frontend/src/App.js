@@ -294,22 +294,22 @@ const App = () => {
   //table head section end--------------------------------------------------------
 
   //table data section start----------------------------------------------------------
-  <table>
-    <thead>{/* Table header */}</thead>
-    <tbody>
-      {customerdata.map((item) => (
-        <tr key={item.key}>
-          <td>{item.code}</td>
-          <td>{item.type}</td>
-          <td>{item.customer_name}</td>
-          <td>{item.customer_mobile}</td>
-          <td>{item.country}</td>
-          <td>{item.city}</td>
-          <td>{item.gender}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>;
+  // <table>
+  //   <thead>{/* Table header */}</thead>
+  //   <tbody>
+  //     {customerdata.map((item) => (
+  //       <tr key={item.key}>
+  //         <td>{item.code}</td>
+  //         <td>{item.type}</td>
+  //         <td>{item.customer_name}</td>
+  //         <td>{item.customer_mobile}</td>
+  //         <td>{item.country}</td>
+  //         <td>{item.city}</td>
+  //         <td>{item.gender}</td>
+  //       </tr>
+  //     ))}
+  //   </tbody>
+  // </table>;
   //table data section end-------------------------------------------------
 
   //table row selection-------------------------------------------
@@ -624,12 +624,12 @@ const App = () => {
               <Form.Item
                 name="country"
                 label={<span style={{ fontWeight: "bold" }}>Country:</span>}
-                rules={[{ required: true }]}
+                //rules={[{ required: true }]}
               >
                 <Select placeholder="Select a option" allowClear>
                   {countryname.map((item) => (
-                    <Option key={item.id} value={item.value}>
-                      {item.country_name}{" "}
+                    <Option key={item.id} value={item.id}>
+                      {item.country_name}
                     </Option>
                   ))}
                 </Select>
