@@ -31,11 +31,9 @@ import {
 import { RcFile, UploadProps } from "antd/es/upload";
 import { UploadFile } from "antd/es/upload/interface";
 
-
 const App = () => {
   const [customerdata, setCustomerData] = useState([]); //fetch data from the db
   const [customerdatavalues, setCustomerDataValues] = useState({
-    customer_id: "",
     code: "",
     customer_name: "",
     customer_mobile: "",
@@ -74,11 +72,11 @@ const App = () => {
   // const[displaycontact_designation, setDisplayContact_designation] = useState()
   // const[displaycontact_mobile, setDisplayContact_mobile] = useState()
   // const[displaycontact_email, setDisplayContact_email] = useState()
-
-  const [code, setCode] = useState([])
-  const [customerName, setCustomerName ] = useState([])
+//customer form data fields******
+  const [code, setCode] = useState([]);
+  const [customerName, setCustomerName] = useState([]);
   const [customerMobile, setCustomerMobile] = useState([]);
-  const [referenceNo, setReferenceNo] = useState([])
+  const [referenceNo, setReferenceNo] = useState([]);
   const [city, setCity] = useState([]);
   const [customerEmail, setCustomerEmail] = useState([]);
   const [companyName, setCompanyName] = useState([]);
@@ -86,6 +84,17 @@ const App = () => {
   const [country, setCountry] = useState([]);
   const [gender, setGender] = useState(); //to gender selector
   const [customerNic, setCustomerNic] = useState([]);
+  
+  const [searchKeyword, setSearchKeyword] = useState(""); //search bar
+
+  //search bar functions
+  const handleSearch = (e) => {
+    setSearchKeyword(e.target.value);
+  };
+  const filteredData = customerdata.filter((item) =>
+  item.customer_name.toLowerCase().includes(searchKeyword.toLowerCase())
+);
+
 
   const handleClick = () => {
     // Handle button click event here
@@ -121,7 +130,7 @@ const App = () => {
   };
   //******************************************** */
 
-//image
+  //image
   const [fileList, setFileList] = useState([
     {
       uid: "-1",
@@ -160,19 +169,15 @@ const App = () => {
     setGender(RadioChangeEvent.target.value);
   };
 
-
   const handleAdd = (e) => {
     e.preventDefault();
-
     const newContact = {
       contact_name,
       contact_designation,
       contact_mobile,
       contact_email,
     };
-
     setContactData((prevData) => [...prevData, newContact]);
-
     setContact_name("");
     setContact_designation("");
     setContact_mobile("");
@@ -372,10 +377,11 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/customer',customerdatavalues)
-    .then(res => setCustomerData(res.data))
-    .catch(err => console.log(err))
-  }
+    axios
+      .post("http://localhost:8080/customer", customerdatavalues)
+      .then((res) => setCustomerData(res.data))
+      .catch((err) => console.log(err));
+  };
 
   //get customer data********************
   useEffect(() => {
@@ -401,7 +407,6 @@ const App = () => {
       .catch((err) => console.log(err));
   });
 
-
   //** */
 
   return (
@@ -417,6 +422,8 @@ const App = () => {
           }}
           suffix={<SearchOutlined />}
           placeholder="Search"
+          value={searchKeyword}
+          onChange={handleSearch}
         />
         <div style={{ position: "fixed", top: 50, right: 50 }}>
           <PlusCircleFilled
@@ -437,11 +444,21 @@ const App = () => {
         pagination={false}
       />
 
+      {/* <Table
+  rowSelection={{
+    type: selectionType,
+    ...rowSelection,
+  }}
+  columns={customerColumns}
+  dataSource={filteredData}
+  pagination={false}
+/> */}
+
       <Modal
         title="CUSTOMER DETAILS:"
         centered
         open={open}
-        onOk={() => setOpen(false)}
+        onOk={() => handleSubmit()}
         // onCancel={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         footer={null}
