@@ -89,10 +89,11 @@ const App = () => {
 
   //search bar functions
   const handleSearch = (e) => {
-    setSearchKeyword(e.target.value);
+    setSearchKeyword(e.target.value); //get the targeted value from the input field
   };
+
   const filteredData = customerdata.filter((item) =>
-  item.customer_name.toLowerCase().includes(searchKeyword.toLowerCase())
+  item.customer_name.toLowerCase().includes(searchKeyword.toLowerCase()) //filter target data from other data
 );
 
 
