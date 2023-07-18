@@ -51,14 +51,18 @@ const App = () => {
   const { Search } = Input; //for srarch bar
   // const onSearch = (value: string) => console.log(value);
   const { Content } = Layout;
+
   const { Option } = Select; //customer type selection
+
   //responsive model
   const [open, setOpen] = useState(false); //to open the modle
   const [custometForm] = Form.useForm();
+
   //multiple file uploading **************************************************
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
+
   //add contact person data to the table****************************
   const [contact_name, setContact_name] = useState();
   const [contact_designation, setContact_designation] = useState();
@@ -68,10 +72,7 @@ const App = () => {
   //const [tableData, setTableData] = useState([])
   const [type, setType] = useState([]); //for customer type
   const [countryname, setCountryName] = useState([]); //for customer type
-  // const[displaycontact_name, setDisplayContact_name] = useState()
-  // const[displaycontact_designation, setDisplayContact_designation] = useState()
-  // const[displaycontact_mobile, setDisplayContact_mobile] = useState()
-  // const[displaycontact_email, setDisplayContact_email] = useState()
+  
 //customer form data fields******
   const [code, setCode] = useState([]);
   const [customerName, setCustomerName] = useState([]);
