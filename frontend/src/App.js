@@ -1,5 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-globals */
+
+/**
+ * start script = "npm start"
+ */
 import React, { useEffect, useState, useParams } from "react";
 import "./index.css";
 import axios from "axios";
