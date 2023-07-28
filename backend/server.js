@@ -10,6 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 //db connection****************************************************************
 const db = mysql.createConnection({
     host:"localhost",
@@ -18,10 +19,12 @@ const db = mysql.createConnection({
     database:"mydb"
 })
 
+
 //open a port for browser connection******************************************
 app.listen(8080,()=>{
     console.log("Listening to port 8080...!");
 })
+
 
 //get data from database********************************************************
 app.get('/',(req, res) =>{
@@ -33,6 +36,7 @@ app.get('/',(req, res) =>{
     })
 })
 
+
 //get a data from database******************************************************
 app.get('/customer/:id',(req, res) =>{
     const sql = "SELECT * FROM customer WHERE ID=?"; //select query of student table
@@ -43,6 +47,7 @@ app.get('/customer/:id',(req, res) =>{
         return res.json(result);
     })
 })
+
 
 //insert data into database*****************************************************
 app.post('/customer',(req,res)=>{
@@ -66,6 +71,7 @@ app.post('/customer',(req,res)=>{
     })
 })
 
+
 //delete data*****************************************************************
 app.delete('/delete/:id', (req,res) => {
     const sql = "DELETE FROM student WHERE ID = ?";
@@ -75,6 +81,7 @@ app.delete('/delete/:id', (req,res) => {
             return res.json(result);
         })
 })
+
 
 //get customer type***********************************************************
 app.get('/type',(req, res) =>{
@@ -86,6 +93,7 @@ app.get('/type',(req, res) =>{
     })
 })
 
+
 //get country******************************************************************
 app.get('/countryname',(req, res) =>{
     const sql = "SELECT * FROM country"; //select query of country table
@@ -95,6 +103,7 @@ app.get('/countryname',(req, res) =>{
         return res.json(result);
     })
 })
+
 
 //multer configuration 
 const storage = multer.diskStorage({
