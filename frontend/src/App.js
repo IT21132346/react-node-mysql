@@ -35,7 +35,9 @@ import {
 import { RcFile, UploadProps } from "antd/es/upload";
 import { UploadFile } from "antd/es/upload/interface";
 
+
 const App = () => {
+
   const [customerdata, setCustomerData] = useState([]); //fetch data from the db
   const [customerdatavalues, setCustomerDataValues] = useState({
     code: "",
@@ -51,11 +53,11 @@ const App = () => {
     customer_nic: "",
   });
 
+
+
   const [selectionType, setSelectionType] = useState("checkbox");
   const { Search } = Input; //for srarch bar
-  // const onSearch = (value: string) => console.log(value);
   const { Content } = Layout;
-
   const { Option } = Select; //customer type selection
 
   //responsive model
@@ -73,11 +75,10 @@ const App = () => {
   const [contact_mobile, setContact_mobile] = useState();
   const [contact_email, setContact_email] = useState();
   const [contactData, setContactData] = useState([]);
-  //const [tableData, setTableData] = useState([])
   const [type, setType] = useState([]); //for customer type
   const [countryname, setCountryName] = useState([]); //for customer type
   
-//customer form data fields******
+  //customer form data fields******
   const [code, setCode] = useState([]);
   const [customerName, setCustomerName] = useState([]);
   const [customerMobile, setCustomerMobile] = useState([]);
@@ -89,8 +90,9 @@ const App = () => {
   const [country, setCountry] = useState([]);
   const [gender, setGender] = useState(); //to gender selector
   const [customerNic, setCustomerNic] = useState([]);
-  
   const [searchKeyword, setSearchKeyword] = useState(""); //search bar
+
+
 
   //search bar functions
   const handleSearch = (e) => {
@@ -99,13 +101,13 @@ const App = () => {
 
   const filteredData = customerdata.filter((item) =>
   item.customer_name.toLowerCase().includes(searchKeyword.toLowerCase()) //filter target data from other data
-);
-
+  );
 
   const handleClick = () => {
     // Handle button click event here
     console.log("Button clicked!");
   };
+
 
   //delete customerdata
   const handleCustomerDelete = (id) => {
@@ -116,6 +118,7 @@ const App = () => {
       })
       .catch((err) => console.log(err));
   };
+
 
   //customer table**********************************************************
   //table head section---------------------------------------------
@@ -129,12 +132,14 @@ const App = () => {
       reader.onerror = (error) => reject(error);
     });
 
+
   //modal footer layour
   const contentStyle = {
     minHeight: 10,
     backgroundColor: "#EAEAEA",
   };
   //******************************************** */
+
 
   //image
   const [fileList, setFileList] = useState([
@@ -146,7 +151,9 @@ const App = () => {
     },
   ]);
 
+
   const handleCancel = () => setPreviewOpen(false);
+
 
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -160,7 +167,9 @@ const App = () => {
     );
   };
 
+
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
 
   const uploadButton = (
     <div>
@@ -170,10 +179,12 @@ const App = () => {
   );
   //********************************************************************** */
 
+
   const onChangeGender = (RadioChangeEvent) => {
     console.log("gender checked", RadioChangeEvent.target.value);
     setGender(RadioChangeEvent.target.value);
   };
+
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -189,6 +200,7 @@ const App = () => {
     setContact_mobile("");
     setContact_email("");
   };
+
 
   const handleChange1 = (e, fieldName) => {
     const value = e.target.value;
@@ -210,11 +222,13 @@ const App = () => {
     }
   };
 
+
   //to map data th the contact person table
   const ContactPersonData = contactData.map((contact, index) => ({
     key: index.toString(),
     ...contact,
   }));
+
 
   const handlecontactdelete = () => {
     setContact_designation("");
@@ -223,12 +237,14 @@ const App = () => {
     setContact_name("");
   };
 
+
   //delete operation for the contact person table
   const handleDeletecontact = (key) => {
     setContactData((prevData) =>
       prevData.filter((contact) => contact.key !== key)
     );
   };
+
 
   //contact person table data starts--------------------------------
   // const ContactPersonData = [
@@ -281,16 +297,9 @@ const App = () => {
       render: (record) => {
         return (
           <>
-            <EyeFilled
-              style={{ fontSize: "20px", color: "#5FC47B", marginRight: 10 }}
-            />
-            <EditFilled
-              style={{ fontSize: "20px", marginRight: 10, color: "#00F3F6" }}
-            />
-            <DeleteFilled
-              onClick={() => handleCustomerDelete(customerdata.id)}
-              style={{ fontSize: "20px", color: "#FF0000" }}
-            />
+            <EyeFilled style={{ fontSize: "20px", color: "#5FC47B", marginRight: 10 }}/>
+            <EditFilled style={{ fontSize: "20px", marginRight: 10, color: "#00F3F6" }}/>
+            <DeleteFilled onClick={() => handleCustomerDelete(customerdata.id)} style={{ fontSize: "20px", color: "#FF0000" }}/>
           </>
         );
       },
@@ -318,6 +327,7 @@ const App = () => {
   // </table>;
   //table data section end-------------------------------------------------
 
+  
   //table row selection-------------------------------------------
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -333,6 +343,7 @@ const App = () => {
     // }),
   };
   //customer table end***************************************************
+
 
   //contact person table ************************************************
   //table header----------------------------------------
@@ -365,13 +376,8 @@ const App = () => {
         return (
           <>
             {/* onClick={() => handleDeletecontact(record.key)}  */}
-            <EditFilled
-              style={{ fontSize: "20px", marginRight: 10, color: "#00F3F6" }}
-            />
-            <DeleteFilled
-              onClick={handlecontactdelete}
-              style={{ fontSize: "20px", color: "#FF0000" }}
-            />
+            <EditFilled style={{ fontSize: "20px", marginRight: 10, color: "#00F3F6" }}/>
+            <DeleteFilled onClick={handlecontactdelete} style={{ fontSize: "20px", color: "#FF0000" }}/>
           </>
         );
       },
@@ -381,6 +387,7 @@ const App = () => {
   //table header end----------------------------------------------------
   //contact person table end********************************************
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -388,6 +395,7 @@ const App = () => {
       .then((res) => setCustomerData(res.data))
       .catch((err) => console.log(err));
   };
+
 
   //get customer data********************
   useEffect(() => {
@@ -397,6 +405,7 @@ const App = () => {
       .catch((err) => console.log(err));
   });
 
+
   //customer type data fetch
   useEffect(() => {
     axios
@@ -404,6 +413,7 @@ const App = () => {
       .then((res) => setType(res.data))
       .catch((err) => console.log(err));
   });
+
 
   //country data fetch
   useEffect(() => {
@@ -413,10 +423,11 @@ const App = () => {
       .catch((err) => console.log(err));
   });
 
-  //** */
+
 
   return (
     <div style={{ margin: 20 }}>
+
       <div>
         {/* <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} /> */}
         <Input
@@ -431,14 +442,19 @@ const App = () => {
           value={searchKeyword}
           onChange={handleSearch}
         />
+
         <div style={{ position: "fixed", top: 50, right: 50 }}>
           <PlusCircleFilled
             onClick={() => setOpen(true)}
             style={{ color: "#00BE35", fontSize: "25px" }}
           />
+
           <DownloadOutlined style={{ marginLeft: 5, fontSize: "25px" }} />
+
         </div>
+
       </div>
+
 
       <Table
         rowSelection={{
@@ -470,7 +486,9 @@ const App = () => {
         footer={null}
         width="90%"
       >
+
         <Divider />
+
         <Form
           form={custometForm}
           name="validateOnly"
@@ -479,14 +497,18 @@ const App = () => {
           width="90%"
           onSubmit={handleSubmit}
         >
+
           {/* start of the form fields */}
           <div style={{ display: "flex", flex: 1 }}>
+
             <div style={{ margin: 10, flex: 1 }}>
+
               <Form.Item
                 name="code"
                 label={<span style={{ fontWeight: "bold" }}>Code:</span>}
                 rules={[{ required: true }]}
               >
+
                 <Input
                   onChange={(e) =>
                     setCustomerDataValues({
@@ -495,7 +517,9 @@ const App = () => {
                     })
                   }
                 />
+
               </Form.Item>
+
               <Form.Item
                 name="customer_name"
                 label={
@@ -503,6 +527,7 @@ const App = () => {
                 }
                 rules={[{ required: true }]}
               >
+
                 <Input
                   onChange={(e) =>
                     setCustomerDataValues({
@@ -511,14 +536,20 @@ const App = () => {
                     })
                   }
                 />
+
               </Form.Item>
+
             </div>
+
+
             <div style={{ margin: 10, flex: 1 }}>
+
               <Form.Item
                 name="reffrence_no"
                 label={<span style={{ fontWeight: "bold" }}>Refrance No:</span>}
                 rules={[{ required: true }]}
               >
+
                 <Input
                   onChange={(e) =>
                     setCustomerDataValues({
@@ -527,7 +558,9 @@ const App = () => {
                     })
                   }
                 />
+
               </Form.Item>
+
               <Form.Item
                 name="company_name"
                 label={
@@ -535,6 +568,7 @@ const App = () => {
                 }
                 rules={[{ required: true }]}
               >
+
                 <Input
                   onChange={(e) =>
                     setCustomerDataValues({
@@ -543,9 +577,14 @@ const App = () => {
                     })
                   }
                 />
+
               </Form.Item>
+
             </div>
+
+
             <div style={{ margin: 10, flex: 1 }}>
+
               <Form.Item
                 name="customer_type"
                 label={
@@ -553,14 +592,20 @@ const App = () => {
                 }
                 // rules={[{ required: true }]}
               >
+
                 <Select placeholder="Select a option" allowClear>
+
                   {type.map((item) => (
+
                     <Option key={item.id} value={item.value}>
                       {item.type_name}{" "}
+
                     </Option>
                   ))}
                 </Select>
+
               </Form.Item>
+
               <Form.Item
                 name="customer_nic"
                 label={
@@ -570,6 +615,7 @@ const App = () => {
                 }
                 rules={[{ required: true }]}
               >
+
                 <Input
                   onChange={(e) =>
                     setCustomerDataValues({
@@ -578,21 +624,29 @@ const App = () => {
                     })
                   }
                 />
+
               </Form.Item>
+
             </div>
+
+
             <div style={{ margin: 10, flex: 1 }}>
+
               <Image
                 flex="1"
                 width="100%"
                 height={200}
                 src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
               />
+
             </div>
           </div>
 
           {/* starting from the 3rd row */}
           <div style={{ display: "flex", flex: 1 }}>
+
             <div style={{ margin: 10, flex: 2 }}>
+
               <Form.Item
                 name="billing_address"
                 label={
@@ -600,6 +654,7 @@ const App = () => {
                 }
                 required={true}
               >
+
                 <Input.TextArea
                   onChange={(e) =>
                     setCustomerDataValues({
@@ -608,9 +663,14 @@ const App = () => {
                     })
                   }
                 />
+
               </Form.Item>
+
             </div>
+
+
             <div style={{ margin: 10, flex: 1 }}>
+
               <Form.Item
                 name="customer_mobile"
                 label={
@@ -618,6 +678,7 @@ const App = () => {
                 }
                 rules={[{ required: true }]}
               >
+
                 <Input
                   onChange={(e) =>
                     setCustomerDataValues({
@@ -626,27 +687,38 @@ const App = () => {
                     })
                   }
                 />
+
               </Form.Item>
+
               <Form.Item
                 name="country"
                 label={<span style={{ fontWeight: "bold" }}>Country:</span>}
                 //rules={[{ required: true }]}
               >
+
                 <Select placeholder="Select a option" allowClear>
+
                   {countryname.map((item) => (
                     <Option key={item.id} value={item.id}>
                       {item.country_name}
                     </Option>
+
                   ))}
                 </Select>
+
               </Form.Item>
+
             </div>
+
+
             <div style={{ margin: 10, flex: 1 }}>
+
               <Form.Item
                 name="customer_email"
                 label={<span style={{ fontWeight: "bold" }}>Email:</span>}
                 rules={[{ required: true }]}
               >
+
                 <Input
                   onChange={(e) =>
                     setCustomerDataValues({
@@ -655,12 +727,15 @@ const App = () => {
                     })
                   }
                 />
+
               </Form.Item>
+
               <Form.Item
                 name="city"
                 label={<span style={{ fontWeight: "bold" }}>City:</span>}
                 rules={[{ required: true }]}
               >
+
                 <Input
                   onChange={(e) =>
                     setCustomerDataValues({
@@ -669,13 +744,17 @@ const App = () => {
                     })
                   }
                 />
+
               </Form.Item>
             </div>
           </div>
 
+
           {/* starting from the 5th row */}
           <div style={{ display: "flex", flex: 1 }}>
+
             <div style={{ margin: 10, flex: 1 }}>
+
               <Upload
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 listType="picture-card"
@@ -683,8 +762,10 @@ const App = () => {
                 onPreview={handlePreview}
                 onChange={handleChange}
               >
+
                 {fileList.length >= 8 ? null : uploadButton}
               </Upload>
+
               <Modal
                 open={previewOpen}
                 title={previewTitle}
@@ -697,33 +778,46 @@ const App = () => {
                   src={previewImage}
                 />
               </Modal>
+
             </div>
+
+
             <div style={{ margin: 10, flex: 1 }}>
+
               <Form.Item
                 name="gender"
                 label={<span style={{ fontWeight: "bold" }}>Gender:</span>}
                 rules={[{ required: true }]}
               >
+
                 <Radio.Group onChange={onChangeGender} value={gender}>
+
                   <Radio value={1}>
                     <b>Male</b>
                   </Radio>
+
                   <Radio value={2}>
                     <b>Female</b>
                   </Radio>
+
                 </Radio.Group>
+
               </Form.Item>
             </div>
           </div>
 
+
           <Divider />
+
 
           {/* new section */}
           <>
             <h2>Contact Person Details :</h2>
 
             <div style={{ display: "flex", flex: 1 }}>
+
               <div style={{ margin: 10, flex: 1 }}>
+
                 <Form.Item
                   name="contact_name"
                   label="Name:"
@@ -734,61 +828,84 @@ const App = () => {
                     onChange={(e) => handleChange1(e, "contact_name")}
                   />
                 </Form.Item>
+
               </div>
+
+
               <div style={{ margin: 10, flex: 1 }}>
+
                 <Form.Item
                   name="contact_designation"
                   label="Designation:"
                   rules={[{ required: true }]}
                 >
+
                   <Input
                     value={contact_designation}
                     onChange={(e) => handleChange1(e, "contact_designation")}
                   />
                 </Form.Item>
+
               </div>
+
+
               <div style={{ margin: 10, flex: 1 }}>
+
                 <Form.Item
                   name="contact_mobile"
                   label="Mobile:"
                   rules={[{ required: true }]}
                 >
+
                   <Input
                     value={contact_mobile}
                     onChange={(e) => handleChange1(e, "contact_mobile")}
                   />
                 </Form.Item>
+
               </div>
+
+
               <div style={{ margin: 10, flex: 1 }}>
+
                 <Form.Item
                   name="contact_email"
                   label="Email:"
                   rules={[{ required: true }]}
                   required
                 >
+
                   <Input
                     value={contact_email}
                     onChange={(e) => handleChange1(e, "contact_email")}
                   />
                 </Form.Item>
+
               </div>
-              <div
-                style={{ display: "flex", alignItems: "center", marginTop: 5 }}
-              >
+
+
+              <div style={{ display: "flex", alignItems: "center", marginTop: 5 }}>
+
                 <div style={{ flex: 1 }}>
+
                   <Button type="primary" onClick={handleAdd}>
                     Add
                   </Button>
+
                 </div>
               </div>
             </div>
+
+
             <Table
               columns={ContactPersonColumns}
               dataSource={ContactPersonData}
               pagination={false}
             />
           </>
+
           <Layout>
+
             <Content style={contentStyle}>
               <div
                 style={{
@@ -799,6 +916,7 @@ const App = () => {
               >
                 <div>
                   <Button style={{ width: 100, margin: 5 }}>Clear</Button>
+
                   <Button
                     type="submit"
                     style={{
@@ -809,12 +927,18 @@ const App = () => {
                   >
                     Save
                   </Button>
+
                 </div>
               </div>
+
             </Content>
+
           </Layout>
+
         </Form>
+
       </Modal>
+
     </div>
   );
 };
